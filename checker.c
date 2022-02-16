@@ -57,7 +57,12 @@ int batteryIsOk(BMS* bms) {
   checkBatteryChargeRate(bms);
   checkBatteryChargingTemperature(bms);
   checkBatterySOC(bms);
-  printBatteryStat(bms);
+  if(bms->battStat == BATTERY_OK) {
+    printf("STATUS: %s\n", defaultBatStat[0]);
+  } else {
+      printBatteryStat(bms);
+  }
+
   return bms->battStat;
 }
 
@@ -66,10 +71,7 @@ void resetBatteryState(BMS* bms) {
 }
 
 void printBatteryStat(BMS* bms) {
-  if(bms->battStat == BATTERY_OK) {
-    printf("STATUS: %s\n", defaultBatStat[0]);
-    return;
-  } 
+
   printf("STATUS:");
   for (int i = 1; i < numberBatStats; i++)
   {
