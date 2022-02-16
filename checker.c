@@ -19,28 +19,28 @@ int numberBatStats = sizeof(defaultBatStat) / sizeof(defaultBatStat[0]);
 
 
 int checkBatteryChargingTemperature(BMS* bms) {
+  CLEAR_BITS(&bms->battStat, FREEZING|OVERHEATING);
   if (bms->temperature < bms->batteryT.minChargingTemperature) {
     CLEAR_BITS(&bms->battStat, OVERHEATING);
     bms->battStat |= FREEZING;
   } else if (bms->temperature > bms->batteryT.maxChargingTemperature){
     CLEAR_BITS(&bms->battStat, FREEZING);
     bms->battStat |= OVERHEATING;
-  } else{
-    CLEAR_BITS(&bms->battStat, FREEZING|OVERHEATING);
   }
   return bms->battStat & (OVERHEATING|FREEZING);
 }
 
 int checkBatterySOC(BMS* bms) {
+  CLEAR_BITS(&bms->battStat, UNDERCHARGE|OVERCHARGE);
   if (bms->soc < bms->batteryT.minChargePercentage) {
     CLEAR_BITS(&bms->battStat, OVERCHARGE);
     bms->battStat |= UNDERCHARGE;
   } else if (bms->soc > bms->batteryT.maxChargePercentage){
     CLEAR_BITS(&bms->battStat, UNDERCHARGE);
     bms->battStat |= OVERCHARGE;
-  } else {
-    CLEAR_BITS(&bms->battStat, UNDERCHARGE|OVERCHARGE);
-  }
+  } 
+
+  
   return bms->battStat & (UNDERCHARGE|OVERCHARGE);
 }
 
@@ -68,16 +68,16 @@ void resetBatteryState(BMS* bms) {
 void printBatteryStat(BMS* bms) {
   if(bms->battStat == BATTERY_OK) {
     printf("STATUS: %s\n", defaultBatStat[0]);
-  } else {
-    printf("STATUS:");
-    for (int i = 1; i < numberBatStats; i++)
-    {
-      if(bms->battStat & 1 << i) {
-        printf("%s ", defaultBatStat[i]);
-      }
+    return;
+  } 
+  printf("STATUS:");
+  for (int i = 1; i < numberBatStats; i++)
+  {
+    if(bms->battStat & 1 << i) {
+      printf("%s ", defaultBatStat[i]);
     }
-    printf("\n");
   }
+  printf("\n");
 
   
 }
