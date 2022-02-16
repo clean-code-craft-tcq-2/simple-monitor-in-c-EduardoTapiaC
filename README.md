@@ -57,3 +57,18 @@ Shorten the Semantic distance
 - Functional to express relation between input and output
 - Object oriented to encapsulate state with actions
 - Apect oriented to capture repeating aspects
+
+
+## Selected Extensions
+
+### Extension 2: Support a language in addition to English
+Our market has expanded to German-speaking countries! Switch the language of the printed messages based on a global variable.
+
+Use Google translate if you aren't familiar with German.
+
+Keep in mind: We could add more languages in future. Minimize the code-change required.
+
+### Extension 3: Accept input in different units
+Some sensors report the temperature in Fahrenheit. Make provision to express the unit along with the measurement. Avoid repeating the limits in different units.
+
+Keep in mind: This time it was temperature in a different unit. Later perhaps other measurements would have variations. Make it possible to add compatibility with additional variations, with minimal modifications to existing code.
